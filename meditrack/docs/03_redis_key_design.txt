@@ -1,0 +1,41 @@
+MediTrack – Redis Key Design (Quick Reference)
+==============================================
+
+1. Today's appointment board
+   Key:    meditrack:appointments:today
+   Type:   String (JSON array)
+   TTL:    120 seconds
+   Purpose: Fast dashboard for reception / nurses
+
+2. Doctor schedule for a specific day
+   Key:    meditrack:doctor:{doctor_id}:schedule:{YYYY-MM-DD}
+   Type:   String (JSON array of slots)
+   TTL:    300 seconds
+   Purpose: Quick availability checks while booking
+
+3. Temporary booking lock
+   Key:    meditrack:lock:slot:{doctor_id}:{date}:{time}
+   Type:   String ("1")
+   TTL:    30 seconds
+   Purpose: Reduce double-booking race conditions
+   Command: SET key 1 NX EX 30
+
+4. Hot patient lookup by phone
+   Key:    meditrack:patient:phone:{phone}
+   Type:   String (JSON patient summary)
+   TTL:    600 seconds
+   Purpose: Fast reception desk search
+
+5. User session
+   Key:    meditrack:session:{token}
+   Type:   Hash (staff_id, role, name)
+   TTL:    28800 seconds (8 hours)
+   Purpose: Authentication / authorization context
+
+Invalidation Rules
+------------------
+- On any INSERT/UPDATE/DELETE of appointments → delete
+  meditrack:appointments:today
+  and the affected doctor schedule key
+
+- On patient update → delete the phone cache key for that patient

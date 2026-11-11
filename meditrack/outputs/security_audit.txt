@@ -1,0 +1,8 @@
+       trigger_name        |   table_name    
+---------------------------+-----------------
+ trg_audit_appointments    | appointments
+ trg_audit_medical_records | medical_records
+ trg_audit_patients        | patients
+ trg_audit_staff           | staff
+(4 rows)
+

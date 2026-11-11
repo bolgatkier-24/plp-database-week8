@@ -1,0 +1,36 @@
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=113.97..114.02 rows=20 width=64) (actual time=0.926..0.930 rows=20 loops=1)
+   Buffers: shared hit=58
+   ->  Sort  (cost=113.97..114.39 rows=169 width=64) (actual time=0.925..0.927 rows=20 loops=1)
+         Sort Key: (count(a.id)) DESC
+         Sort Method: top-N heapsort  Memory: 28kB
+         Buffers: shared hit=58
+         ->  HashAggregate  (cost=102.28..109.47 rows=169 width=64) (actual time=0.762..0.794 rows=127 loops=1)
+               Group Key: p.id
+               Filter: (count(a.id) >= 2)
+               Batches: 1  Memory Usage: 57kB
+               Rows Removed by Filter: 2
+               Buffers: shared hit=55
+               ->  Hash Join  (cost=32.55..96.62 rows=754 width=28) (actual time=0.297..0.633 rows=754 loops=1)
+                     Hash Cond: (a.patient_id = p.id)
+                     Buffers: shared hit=55
+                     ->  Bitmap Heap Scan on appointments a  (cost=14.12..76.20 rows=754 width=12) (actual time=0.034..0.253 rows=754 loops=1)
+                           Recheck Cond: ((status)::text = 'completed'::text)
+                           Filter: (appointment_date >= (CURRENT_DATE - 90))
+                           Heap Blocks: exact=46
+                           Buffers: shared hit=48
+                           ->  Bitmap Index Scan on idx_appointments_status  (cost=0.00..13.93 rows=754 width=0) (actual time=0.024..0.024 rows=754 loops=1)
+                                 Index Cond: ((status)::text = 'completed'::text)
+                                 Buffers: shared hit=2
+                     ->  Hash  (cost=12.08..12.08 rows=508 width=20) (actual time=0.250..0.251 rows=508 loops=1)
+                           Buckets: 1024  Batches: 1  Memory Usage: 35kB
+                           Buffers: shared hit=7
+                           ->  Seq Scan on patients p  (cost=0.00..12.08 rows=508 width=20) (actual time=0.005..0.169 rows=508 loops=1)
+                                 Buffers: shared hit=7
+ Planning:
+   Buffers: shared hit=305 read=3
+ Planning Time: 0.899 ms
+ Execution Time: 1.010 ms
+(32 rows)
+

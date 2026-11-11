@@ -1,0 +1,5 @@
+ patients | appointments | staff | departments 
+----------+--------------+-------+-------------
+      508 |         3010 |     7 |           5
+(1 row)
+

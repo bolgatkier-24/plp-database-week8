@@ -1,0 +1,18 @@
+A more recent version of Flyway is available. Find out more about Flyway 13.12.1 at https://rd.gt/3rXiSlV
+
+Flyway OSS Edition 10.20.1 by Redgate
+
+See release notes here: https://rd.gt/416ObMi
+Database: jdbc:postgresql://localhost:5432/capstone (PostgreSQL 16.15)
+Schema version: 5
+
++-----------+---------+--------------------+------+---------------------+---------+----------+
+| Category  | Version | Description        | Type | Installed On        | State   | Undoable |
++-----------+---------+--------------------+------+---------------------+---------+----------+
+| Versioned | 1       | core tables        | SQL  | 2026-11-08 08:45:57 | Success | No       |
+| Versioned | 2       | indexes            | SQL  | 2026-11-08 08:45:57 | Success | No       |
+| Versioned | 3       | audit and triggers | SQL  | 2026-11-08 08:45:57 | Success | No       |
+| Versioned | 4       | row level security | SQL  | 2026-11-08 08:45:57 | Success | No       |
+| Versioned | 5       | seed demo data     | SQL  | 2026-11-08 08:45:57 | Success | No       |
++-----------+---------+--------------------+------+---------------------+---------+----------+
+

@@ -1,0 +1,19 @@
+                                                       QUERY PLAN                                                       
+------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=88.39..88.79 rows=9 width=68) (actual time=0.491..0.620 rows=31 loops=1)
+   Group Key: appointment_date
+   Buffers: shared hit=50
+   ->  Sort  (cost=88.39..88.41 rows=9 width=62) (actual time=0.476..0.509 rows=782 loops=1)
+         Sort Key: appointment_date
+         Sort Method: quicksort  Memory: 55kB
+         Buffers: shared hit=50
+         ->  Seq Scan on appointments a  (cost=0.00..88.24 rows=9 width=62) (actual time=0.009..0.336 rows=782 loops=1)
+               Filter: ((appointment_date <= CURRENT_DATE) AND (appointment_date >= (CURRENT_DATE - 30)))
+               Rows Removed by Filter: 2228
+               Buffers: shared hit=47
+ Planning:
+   Buffers: shared hit=138
+ Planning Time: 0.399 ms
+ Execution Time: 0.693 ms
+(15 rows)
+

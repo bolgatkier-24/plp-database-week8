@@ -1,0 +1,12 @@
+       rolname       | rolsuper | rolcanlogin 
+---------------------+----------+-------------
+ app_admin           | f        | f
+ app_clinical        | f        | f
+ app_readonly        | f        | f
+ app_receptionist    | f        | f
+ meditrack_admin     | f        | t
+ meditrack_clinical  | f        | t
+ meditrack_readonly  | f        | t
+ meditrack_reception | f        | t
+(8 rows)
+

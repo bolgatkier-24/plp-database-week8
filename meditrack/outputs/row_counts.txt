@@ -1,0 +1,20 @@
+ patients 
+----------
+        8
+(1 row)
+
+ appointments 
+--------------
+           10
+(1 row)
+
+ medical_records 
+-----------------
+               4
+(1 row)
+
+ staff 
+-------
+     7
+(1 row)
+

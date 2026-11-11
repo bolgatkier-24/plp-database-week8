@@ -1,0 +1,37 @@
+                                                                          QUERY PLAN                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=90.40..90.41 rows=5 width=514) (actual time=1.965..1.967 rows=5 loops=1)
+   Sort Key: (count(*)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=2478
+   ->  GroupAggregate  (cost=90.16..90.34 rows=5 width=514) (actual time=1.808..1.950 rows=5 loops=1)
+         Group Key: s.id, d.name
+         Buffers: shared hit=2475
+         ->  Sort  (cost=90.16..90.18 rows=5 width=516) (actual time=1.753..1.803 rows=1210 loops=1)
+               Sort Key: s.id, d.name
+               Sort Method: quicksort  Memory: 126kB
+               Buffers: shared hit=2475
+               ->  Nested Loop  (cost=8.32..90.11 rows=5 width=516) (actual time=0.046..1.459 rows=1210 loops=1)
+                     Buffers: shared hit=2469
+                     ->  Hash Join  (cost=8.17..88.89 rows=5 width=302) (actual time=0.038..0.655 rows=1210 loops=1)
+                           Hash Cond: (a.doctor_id = s.id)
+                           Buffers: shared hit=49
+                           ->  Seq Scan on appointments a  (cost=0.00..79.08 rows=611 width=66) (actual time=0.010..0.391 rows=1510 loops=1)
+                                 Filter: (appointment_date >= (CURRENT_DATE - 30))
+                                 Rows Removed by Filter: 1500
+                                 Buffers: shared hit=47
+                           ->  Hash  (cost=8.16..8.16 rows=1 width=240) (actual time=0.017..0.017 rows=4 loops=1)
+                                 Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                 Buffers: shared hit=2
+                                 ->  Index Scan using idx_staff_role on staff s  (cost=0.14..8.16 rows=1 width=240) (actual time=0.008..0.009 rows=4 loops=1)
+                                       Index Cond: ((role)::text = 'doctor'::text)
+                                       Buffers: shared hit=2
+                     ->  Index Scan using departments_pkey on departments d  (cost=0.15..0.24 rows=1 width=222) (actual time=0.000..0.000 rows=1 loops=1210)
+                           Index Cond: (id = a.department_id)
+                           Buffers: shared hit=2420
+ Planning:
+   Buffers: shared hit=274
+ Planning Time: 0.626 ms
+ Execution Time: 2.025 ms
+(33 rows)
+

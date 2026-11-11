@@ -1,0 +1,13 @@
+                 List of relations
+ Schema |         Name          | Type  |  Owner   
+--------+-----------------------+-------+----------
+ public | appointments          | table | postgres
+ public | audit_log             | table | postgres
+ public | departments           | table | postgres
+ public | flyway_schema_history | table | postgres
+ public | medical_records       | table | postgres
+ public | patients              | table | postgres
+ public | prescriptions         | table | postgres
+ public | staff                 | table | postgres
+(8 rows)
+

@@ -1,0 +1,23 @@
+                                                                  QUERY PLAN                                                                   
+-----------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=104.70..105.00 rows=120 width=68) (actual time=0.326..0.328 rows=31 loops=1)
+   Sort Key: appointment_date
+   Sort Method: quicksort  Memory: 27kB
+   Buffers: shared hit=43
+   ->  HashAggregate  (cost=97.86..100.56 rows=120 width=68) (actual time=0.290..0.303 rows=31 loops=1)
+         Group Key: appointment_date
+         Batches: 1  Memory Usage: 40kB
+         Buffers: shared hit=40
+         ->  Bitmap Heap Scan on appointments a  (cost=16.56..81.72 rows=807 width=13) (actual time=0.033..0.137 rows=782 loops=1)
+               Recheck Cond: ((appointment_date >= (CURRENT_DATE - 30)) AND (appointment_date <= CURRENT_DATE))
+               Heap Blocks: exact=37
+               Buffers: shared hit=40
+               ->  Bitmap Index Scan on idx_appointments_date  (cost=0.00..16.36 rows=807 width=0) (actual time=0.024..0.024 rows=782 loops=1)
+                     Index Cond: ((appointment_date >= (CURRENT_DATE - 30)) AND (appointment_date <= CURRENT_DATE))
+                     Buffers: shared hit=3
+ Planning:
+   Buffers: shared hit=204
+ Planning Time: 0.525 ms
+ Execution Time: 0.386 ms
+(19 rows)
+

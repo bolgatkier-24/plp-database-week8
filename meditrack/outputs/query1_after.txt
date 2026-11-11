@@ -1,0 +1,41 @@
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=193.53..195.68 rows=862 width=289) (actual time=1.120..1.122 rows=5 loops=1)
+   Sort Key: (count(*)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=53 read=2
+   ->  HashAggregate  (cost=138.57..151.50 rows=862 width=289) (actual time=1.098..1.103 rows=5 loops=1)
+         Group Key: s.id, d.name
+         Batches: 1  Memory Usage: 49kB
+         Buffers: shared hit=50 read=2
+         ->  Hash Join  (cost=41.42..123.48 rows=862 width=242) (actual time=0.099..0.848 rows=1210 loops=1)
+               Hash Cond: (a.department_id = d.id)
+               Buffers: shared hit=50 read=2
+               ->  Hash Join  (cost=25.12..104.89 rows=862 width=28) (actual time=0.076..0.658 rows=1210 loops=1)
+                     Hash Cond: (a.doctor_id = s.id)
+                     Buffers: shared hit=49 read=2
+                     ->  Bitmap Heap Scan on appointments a  (cost=23.98..97.39 rows=1509 width=17) (actual time=0.058..0.384 rows=1510 loops=1)
+                           Recheck Cond: (appointment_date >= (CURRENT_DATE - 30))
+                           Heap Blocks: exact=47
+                           Buffers: shared hit=48 read=2
+                           ->  Bitmap Index Scan on idx_appointments_date  (cost=0.00..23.60 rows=1509 width=0) (actual time=0.044..0.044 rows=1510 loops=1)
+                                 Index Cond: (appointment_date >= (CURRENT_DATE - 30))
+                                 Buffers: shared hit=1 read=2
+                     ->  Hash  (cost=1.09..1.09 rows=4 width=15) (actual time=0.006..0.007 rows=4 loops=1)
+                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                           Buffers: shared hit=1
+                           ->  Seq Scan on staff s  (cost=0.00..1.09 rows=4 width=15) (actual time=0.002..0.004 rows=4 loops=1)
+                                 Filter: ((role)::text = 'doctor'::text)
+                                 Rows Removed by Filter: 3
+                                 Buffers: shared hit=1
+               ->  Hash  (cost=12.80..12.80 rows=280 width=222) (actual time=0.013..0.014 rows=5 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                     Buffers: shared hit=1
+                     ->  Seq Scan on departments d  (cost=0.00..12.80 rows=280 width=222) (actual time=0.004..0.005 rows=5 loops=1)
+                           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=347 read=6
+ Planning Time: 1.020 ms
+ Execution Time: 1.217 ms
+(37 rows)
+

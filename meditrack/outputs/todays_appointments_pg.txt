@@ -1,0 +1,7 @@
+ id |   patient    | doctor  | start_time |  status   
+----+--------------+---------+------------+-----------
+  1 | Akosua Owusu | Asante  | 09:00:00   | scheduled
+  2 | Yaw Mensah   | Mensah  | 10:00:00   | scheduled
+  3 | Ama Boateng  | Boateng | 11:00:00   | completed
+(3 rows)
+

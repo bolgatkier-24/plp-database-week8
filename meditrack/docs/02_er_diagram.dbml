@@ -1,0 +1,77 @@
+// MediTrack - Hospital Patient Records & Appointment System
+// Capstone ER Diagram (paste into dbdiagram.io)
+
+Table departments {
+  id serial [pk]
+  name varchar(100) [not null, unique]
+  description text
+  created_at timestamptz [default: `now()`]
+}
+
+Table staff {
+  id serial [pk]
+  department_id int [ref: > departments.id]
+  first_name varchar(50) [not null]
+  last_name varchar(50) [not null]
+  email varchar(100) [unique, not null]
+  role varchar(20) [not null, note: 'doctor, nurse, receptionist, admin']
+  phone varchar(20)
+  password_hash text
+  is_active boolean [default: true]
+  created_at timestamptz [default: `now()`]
+}
+
+Table patients {
+  id serial [pk]
+  first_name varchar(50) [not null]
+  last_name varchar(50) [not null]
+  date_of_birth date [not null]
+  gender varchar(10)
+  phone varchar(20)
+  email varchar(100)
+  address text
+  blood_group varchar(5)
+  emergency_contact_name varchar(100)
+  emergency_contact_phone varchar(20)
+  created_at timestamptz [default: `now()`]
+  updated_at timestamptz [default: `now()`]
+}
+
+Table appointments {
+  id serial [pk]
+  patient_id int [ref: > patients.id, not null]
+  doctor_id int [ref: > staff.id, not null]
+  department_id int [ref: > departments.id]
+  appointment_date date [not null]
+  start_time time [not null]
+  end_time time
+  status varchar(20) [not null, default: 'scheduled', note: 'scheduled, completed, cancelled, no_show']
+  reason text
+  notes text
+  created_by int [ref: > staff.id]
+  created_at timestamptz [default: `now()`]
+  updated_at timestamptz [default: `now()`]
+}
+
+Table medical_records {
+  id serial [pk]
+  patient_id int [ref: > patients.id, not null]
+  appointment_id int [ref: > appointments.id]
+  doctor_id int [ref: > staff.id, not null]
+  visit_date date [not null]
+  diagnosis text
+  treatment_plan text
+  notes text
+  created_at timestamptz [default: `now()`]
+}
+
+Table prescriptions {
+  id serial [pk]
+  medical_record_id int [ref: > medical_records.id, not null]
+  medication_name varchar(100) [not null]
+  dosage varchar(50)
+  frequency varchar(50)
+  duration_days int
+  instructions text
+  created_at timestamptz [default: `now()`]
+}

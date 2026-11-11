@@ -1,0 +1,9 @@
+   table_name    | rls_enabled 
+-----------------+-------------
+ appointments    | t
+ medical_records | t
+ patients        | t
+ prescriptions   | t
+ staff           | f
+(5 rows)
+
